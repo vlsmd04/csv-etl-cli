@@ -36,3 +36,27 @@ cd csv-etl-cli
 8.Validated Spark outputs against PostgreSQL results to ensure data accuracy.
 9.Benchmarked performance by tuning Spark partitions and enabling broadcast joins.
 10.Demonstrated end-to-end data validation, performance tuning, and production-style pipeline design.
+
+
+
+
+#Week-3: ### AWS Data Lake Architecture
+1.S3 Data Lake Structure
+
+* `raw/` – stores original Parquet files generated from the CSV dataset.
+* `staging/` – intermediate data used during transformation workflows.
+* `curated/` – cleaned and feature-engineered datasets ready for analytics.
+
+2.Data Security
+
+* Amazon S3 **Server-Side Encryption (SSE-S3)** is enabled to encrypt all stored data using AES-256 encryption.
+
+3.Access Control
+
+* AWS **IAM policies** are used to manage secure access to the S3 bucket.
+* Access permissions allow controlled operations such as uploading, downloading, and listing objects via AWS CLI and boto3 scripts.
+
+4.Monitoring and Auditing
+
+**AWS CloudTrail** is enabled to log all API activities for auditing and governance.
+**AWS Budgets** is configured to monitor project spending and trigger alerts when costs exceed defined thresholds.
