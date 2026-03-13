@@ -40,7 +40,7 @@ cd csv-etl-cli
 
 
 
-#Week-3: ### AWS Data Lake Architecture
+#Week-3: AWS Data Lake Architecture
 1.S3 Data Lake Structure
 
 * `raw/` – stores original Parquet files generated from the CSV dataset.
@@ -60,3 +60,19 @@ cd csv-etl-cli
 
 **AWS CloudTrail** is enabled to log all API activities for auditing and governance.
 **AWS Budgets** is configured to monitor project spending and trigger alerts when costs exceed defined thresholds.
+
+
+#Week - 4: AWS Data Lake Pipeline
+
+Architecture that I followed:
+S3 Raw Zone → AWS Glue Crawler → Glue Data Catalog → Glue ETL (PySpark) → S3 Curated Zone (Parquet) → Lake Formation Permissions → Amazon Athena Queries
+
+1. Created an AWS Glue database and configured a Glue Crawler to catalog raw data stored in the S3 raw zone. Verified the discovered schema and partitions in the AWS Glue Data Catalog.
+2. Developed an AWS Glue ETL job using PySpark that reads raw CSV data from Amazon S3, performs data cleaning and transformations, and writes the processed data to the curated zone in Parquet format with partitioning.
+3. Enabled Glue job bookmarks to support incremental data processing and configured retry settings to improve job reliability and fault tolerance.
+4. Configured AWS Lake Formation permissions to control data access. Athena was granted read access to the curated zone while restricting direct access to the raw data.
+5. Created a limited IAM user to test and validate Lake Formation access controls for querying curated datasets.
+6. Executed SQL queries in Amazon Athena against the curated tables to validate the processed data.
+7. Created an optimized CTAS (Create Table As Select) table using Parquet format with Snappy compression and partitioning to improve query performance.
+8. Compared query performance between the original curated table and the optimized CTAS table.
+9. Observed that partitioning and columnar storage significantly reduced the amount of data scanned, resulting in faster queries and lower Athena query costs.
