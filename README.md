@@ -76,3 +76,23 @@ S3 Raw Zone → AWS Glue Crawler → Glue Data Catalog → Glue ETL (PySpark) �
 7. Created an optimized CTAS (Create Table As Select) table using Parquet format with Snappy compression and partitioning to improve query performance.
 8. Compared query performance between the original curated table and the optimized CTAS table.
 9. Observed that partitioning and columnar storage significantly reduced the amount of data scanned, resulting in faster queries and lower Athena query costs.
+
+
+#Week - 5: Serverless Data Pipeline
+Architecture that I followed:
+Client (curl/Postman) → API Gateway (HTTP API) → Lambda (validation + enrichment) → S3 (raw data storage) → Step Functions (workflow orchestration) → Lambda (processing step)
+
+1.Built an HTTP API using Amazon API Gateway with a POST /events endpoint for ingesting JSON events.
+2.Integrated the API with AWS Lambda to process incoming requests.
+3.Implemented validation and enriched events with metadata such as event_id and received_at.
+4.Stored processed data in Amazon S3 using time-based partitioning (year/month/day/hour).
+5.Tested end-to-end pipeline using curl to simulate real-time event ingestion.
+6.Enabled logging and monitoring using Amazon CloudWatch.
+7.Created CloudWatch alarms for:
+    -Lambda errors (> 0)
+    -API Gateway 5XX errors (> 1)
+8.Built a workflow using AWS Step Functions to orchestrate multiple steps.
+9.Designed workflow:
+     -Start → ingestion Lambda → processing Lambda → End
+     -Included retry logic for failure handling
+10.Optimized for cost by avoiding paid services (Kinesis, Glue, Athena) and using free-tier alternatives.
