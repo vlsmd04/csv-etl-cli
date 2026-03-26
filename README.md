@@ -96,3 +96,25 @@ Client (curl/Postman) → API Gateway (HTTP API) → Lambda (validation + enrich
      -Start → ingestion Lambda → processing Lambda → End
      -Included retry logic for failure handling
 10.Optimized for cost by avoiding paid services (Kinesis, Glue, Athena) and using free-tier alternatives.
+
+#Week - 6: Serverless ETL Data Pipeline
+Architecture that I followed:
+API Gateway → Lambda → S3 (raw) → Lambda (curation) → S3 (curated) → Lambda (reporting) → S3 (reporting)
+
+1.Built an end-to-end serverless ETL pipeline using AWS services to ingest, process, and analyze event data.
+2.Implemented an HTTP endpoint using API Gateway to receive JSON event data (ride events with fare and zone).
+3.Stored incoming data in Amazon S3 (raw layer) using a Lambda ingestion function.
+4.Developed a curation Lambda (curation-fn) triggered by S3 events to clean and structure raw data into partitioned Parquet-like JSON format.
+5.Organized curated data in S3 (curated layer) using time-based partitioning (year/month/day) for efficient querying.
+6.Built a reporting Lambda (reporting-fn) to aggregate curated data and generate analytics (total fare, event count, per-zone metrics).
+7.Stored aggregated results in S3 (reporting layer) as summary.json.
+8.Orchestrated the pipeline using AWS Step Functions, enabling sequential execution of transformation and reporting steps.
+9.Implemented logging and monitoring using CloudWatch Logs, and handled edge cases like empty files and invalid JSON.
+10.Designed the pipeline to be cost-efficient (Free Tier), scalable, and aligned with real-world data engineering practices.
+
+Due to cost efficient, I had used different tools.
+| Original Tool        | Replaced With         |
+| Kinesis              | API Gateway + Lambda  |
+| Glue Streaming / EMR | Lambda                |
+| Athena / Redshift    | Lambda aggregation    |
+| Streaming pipeline   | Event-driven pipeline |
