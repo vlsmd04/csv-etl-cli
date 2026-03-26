@@ -99,7 +99,7 @@ Client (curl/Postman) → API Gateway (HTTP API) → Lambda (validation + enrich
 
 #Week - 6: Serverless ETL Data Pipeline
 Architecture that I followed:
-API Gateway → Lambda → S3 (raw) → Lambda (curation) → S3 (curated) → Lambda (reporting) → S3 (reporting)
+API Gateway → Lambda → S3 (raw) → Lambda (curation) → S3 (curated) → Lambda (reporting) → S3 (reporting) → Step Functions (orchestration)
 
 1.Built an end-to-end serverless ETL pipeline using AWS services to ingest, process, and analyze event data.
 2.Implemented an HTTP endpoint using API Gateway to receive JSON event data (ride events with fare and zone).
