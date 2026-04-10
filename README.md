@@ -125,12 +125,12 @@ Architecture that I followed:
 API Gateway → Lambda → S3 (raw) → Lambda (curation) → S3 (curated) → Lambda (reporting) → S3 (reporting) → Step Functions
 
 1.Designed and implemented an end-to-end serverless ETL pipeline using AWS free-tier services to process user/event data.
-2.Built an ingestion layer using API Gateway + Lambda to receive JSON events and store them in Amazon S3 (raw zone) with date-based         partitioning.
+2.Built an ingestion layer using API Gateway + Lambda to receive JSON events and store them in Amazon S3 (raw zone) with date-based partitioning.
 3.Structured raw data in S3 using a partitioned format (year/month/day/hour) to support scalable processing.
-4.Developed a curation Lambda (curation-fn) triggered by S3 events to clean data, extract fields, and transform it into a structured        format.
+4.Developed a curation Lambda (curation-fn) triggered by S3 events to clean data, extract fields, and transform it into a structured format.
 5.Stored transformed data in S3 curated zone, maintaining time-based partitions for efficient downstream processing.
-6.Implemented a reporting Lambda (reporting-fn) to aggregate curated data and compute metrics such as total fare, event count, and zone-    wise statistics.
+6.Implemented a reporting Lambda (reporting-fn) to aggregate curated data and compute metrics such as total fare, event count, and zone-wise statistics.
 7.Saved aggregated outputs in S3 reporting layer as summary.json for analytics consumption.
 8.Orchestrated the workflow using AWS Step Functions, enabling controlled execution of curation and reporting stages with error handling.
-9.Replaced costly services like Glue, Athena, and Redshift with Lambda-based processing to ensure the entire pipeline runs within free-     tier limits.
+9.Replaced costly services like Glue, Athena, and Redshift with Lambda-based processing to ensure the entire pipeline runs within free-tier limits.
 10.Added logging and monitoring via CloudWatch, and implemented safeguards for handling empty files, invalid JSON, and missing keys.
